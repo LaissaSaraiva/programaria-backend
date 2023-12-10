@@ -3,7 +3,7 @@ const router = express.Router(); // Configura a primeira parte da rota
 const { v4: uuidv4 } = require('uuid'); // Inicia a Uuid
 
 const app = express(); // Inicia o App
-app.use(express.json()); // Informa que a parti de agora os dados serão reuisiado em formato json
+app.use(express.json()); // Informa que a partir de agora os dados serão enviados em formato json
 const porta = 3333; // Cria a porta
 
 // Cria lista inicial de mulheres - estática
@@ -44,7 +44,7 @@ function criaMulher(request, response) {
     minibio: request.body.minibio,
   };
   mulheres.push(novaMulher); // Envia nova mulher para a lista de mulheres
-  response.json(mulheres); // Envia a lista atualizada como resposta
+  response.json(mulheres); // Envia a lista atualizada como resposta em json
 }
 
 // Configura rota 'Get'
