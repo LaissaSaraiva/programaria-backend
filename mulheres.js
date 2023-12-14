@@ -9,19 +9,19 @@ const porta = 3333; // Cria a porta
 // Cria lista inicial de mulheres - estática
 const mulheres = [
   {
-    id: 1,
+    id: '1',
     nome: 'Simara Conceição',
     imagem: 'https://github.com/simaraconceicao.png',
     minibio: 'Desenvolvedora e instrutora'
   },
   {
-    id: 2,
+    id: '2',
     nome: 'Iana Chan',
     imagem: 'https://github.com/simaraconceicao.png',
     minibio: 'Fundadora e CEO da Programaria'
   },
   {
-    id: 3,
+    id: '3',
     nome: 'Nat F Dev',
     imagem: 'https://github.com/simaraconceicao.png',
     minibio: 'Artista de CSS'
