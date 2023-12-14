@@ -47,11 +47,40 @@ function criaMulher(request, response) {
   response.json(mulheres); // Envia a lista atualizada como resposta em json
 }
 
+// PATCH
+
+function corrigeMulher(request, response) {
+  function encontraMulher(mulher) {
+    if(mulher.id === request.params.id) {
+      return mulher
+    }
+  }
+
+  const mulherEncontrada = mulheres.find(encontraMulher);
+
+  if(request.body.nome) {
+    mulherEncontrada.nome = request.body.nome
+  }
+
+  if(request.body.imagem) {
+    mulherEncontrada.imagem = request.body.imagem
+  }
+
+  if(request.body.minibio) {
+    mulherEncontrada.minibio = request.body.minibio
+  }
+
+  response.json(mulheres)
+}
+
 // Configura rota 'Get'
 app.use(router.get('/mulheres', mostraMulheres));
 
 // Configura rota 'Post'
 app.use(router.post('/mulheres', criaMulher));
+
+// Configura rota 'Patch'
+router.patch('/mulheres/:id', corrigeMulher);
 
 //  Servidor ouvindo a porta - função anônima
 app.listen(porta, () => {
