@@ -48,7 +48,6 @@ function criaMulher(request, response) {
 }
 
 // PATCH
-
 function corrigeMulher(request, response) {
   function encontraMulher(mulher) {
     if(mulher.id === request.params.id) {
@@ -73,6 +72,18 @@ function corrigeMulher(request, response) {
   response.json(mulheres)
 }
 
+// DELETE
+function deletaMulher(request, response) {
+  function todasMenosEla(mulher) {
+    if(mulher.id !== request.params.id) {
+      return mulher;
+    }
+  }
+
+  const mulheresQueFicam = mulheres.filter(todasMenosEla);
+  response.json(mulheresQueFicam);
+}
+
 // Configura rota 'Get'
 app.use(router.get('/mulheres', mostraMulheres));
 
@@ -80,7 +91,10 @@ app.use(router.get('/mulheres', mostraMulheres));
 app.use(router.post('/mulheres', criaMulher));
 
 // Configura rota 'Patch'
-router.patch('/mulheres/:id', corrigeMulher);
+app.use(router.patch('/mulheres/:id', corrigeMulher));
+
+// Configura rota 'Delete'
+app.use(router.delete('/mulheres/:id', deletaMulher));
 
 //  Servidor ouvindo a porta - função anônima
 app.listen(porta, () => {
