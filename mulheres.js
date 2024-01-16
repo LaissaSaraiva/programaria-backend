@@ -1,6 +1,5 @@
 const express = require('express'); // Inicia o Express
 const router = express.Router(); // Configura a primeira parte da rota
-const { v4: uuidv4 } = require('uuid'); // Inicia a Uuid
 
 const conectaBancoDeDados = require('./banco-de-dados') //Conecta o servidor ao arquivo banco-de-dados.js
 conectaBancoDeDados(); //Chama função.
@@ -22,40 +21,51 @@ async function mostraMulheres(request, response) {
 }
 
 // POST
-function criaMulher(request, response) {
-  const novaMulher = {
-    id: uuidv4(),
+async function criaMulher(request, response) {
+  const novaMulher =  new Mulher({
     nome: request.body.nome,
     imagem: request.body.imagem,
     minibio: request.body.minibio,
-  };
-  mulheres.push(novaMulher); // Envia nova mulher para a lista de mulheres
-  response.json(mulheres); // Envia a lista atualizada como resposta em json
+    citacao: request.body.citacao
+  });
+
+  try {
+    const mulherCriada = await novaMulher.save() //Abstração Moongoso para o POST
+    response.status(201).json(mulherCriada); // Envia a lista atualizada como resposta em json. // 201 resposta criada
+  } catch(erro) {
+    console.log(erro)
+  }
+
 }
 
 // PATCH
-function corrigeMulher(request, response) {
-  function encontraMulher(mulher) {
-    if(mulher.id === request.params.id) {
-      return mulher
+async function corrigeMulher(request, response) {
+  try {
+    const mulherEncontrada = await Mulher.findById(request.params.id) // comunicação com serviço externo. 'await' para esperar. //findById(PARAMETRO SERÁ ENVIADO NA URL DA REQUISIÇÃO). Encontra a mulher através do mongoose
+    
+    if(request.body.nome) {
+      mulherEncontrada.nome = request.body.nome
     }
+  
+    if(request.body.imagem) {
+      mulherEncontrada.imagem = request.body.imagem
+    }
+  
+    if(request.body.minibio) {
+      mulherEncontrada.minibio = request.body.minibio
+    }
+    
+    if(request.body.citacao) {
+      mulherEncontrada.citacao = request.body.minibio
+    }
+
+    const mulherAtualizadaNoBancoDeDados = await mulherEncontrada.save()
+
+    response.json(mulherAtualizadaNoBancoDeDados)
+
+  } catch(erro) {
+    console.log(erro)
   }
-
-  const mulherEncontrada = mulheres.find(encontraMulher);
-
-  if(request.body.nome) {
-    mulherEncontrada.nome = request.body.nome
-  }
-
-  if(request.body.imagem) {
-    mulherEncontrada.imagem = request.body.imagem
-  }
-
-  if(request.body.minibio) {
-    mulherEncontrada.minibio = request.body.minibio
-  }
-
-  response.json(mulheres)
 }
 
 // DELETE
