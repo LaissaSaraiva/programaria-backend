@@ -1,5 +1,6 @@
 const express = require('express'); // Inicia o Express
 const router = express.Router(); // Configura a primeira parte da rota
+const cors = require('cors'); // Chama o pacote Cors - que permite consumir essa API nno FrontEnd
 
 const conectaBancoDeDados = require('./banco-de-dados') //Conecta o servidor ao arquivo banco-de-dados.js
 conectaBancoDeDados(); //Chama função.
@@ -7,6 +8,7 @@ conectaBancoDeDados(); //Chama função.
 const Mulher = require('./mulherModel') // Chama o Model Mulher - regras da criação do Objeto Mulher.
 const app = express(); // Inicia o App
 app.use(express.json()); // Informa que a partir de agora os dados serão enviados em formato json
+app.use(cors()) // Função que libera API para ser usada a partir do FrontEnd
 const porta = 3333; // Cria a porta
 //  OBS: Toda função atrelada a rota receber por parametros (request, response)
 
