@@ -1,13 +1,12 @@
 // Chama a depência instalada no projeto
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 async function conectaBancoDeDados() {
   try {
     console.log("A conexão com o Banco de Dados foi iniciada.");
     // await libera Node para atender outras demandas enquanto o MongoDb nõa responde
-    await mongoose.connect(
-      "mongodb+srv://laissasaraiva:7QcBmpNz4vxfWWZ1@clustermulheres.17jerno.mongodb.net/?retryWrites=true&w=majority"
-    );
+    await mongoose.connect(process.env.MONGO_URL); // estratégia para proteger a URL de conexão com o banco de dados.
 
     console.log("A conexão com o Banco de Dados realizada com sucesso.");
   } catch (erro) {
